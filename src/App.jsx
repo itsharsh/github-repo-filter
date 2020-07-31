@@ -1,14 +1,17 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-import Home from "./components/UserSearch";
+import UserSearch from "./components/UserSearch";
+import RepoRefine from "./components/RefineSearch";
+import Repos from "./components/Repos";
 
 const githubAPI = "https://api.github.com/users/";
 
 function App() {
   const [repos, setRepos] = useState([]);
-  const [username, setUsername] = useState("");
+  const [username, setUsername] = useState("itsharsh");
   const [isLoading, setIsLoading] = useState(false);
+  const [repoFilter, setRepoFilter] = useState({ string: "" });
 
   const fetchRepo = async (username) => {
     setIsLoading(true);
@@ -25,25 +28,34 @@ function App() {
     setIsLoading(false);
   };
 
-  const handleSubmit = (e) => {
+  const handleUsernameSubmit = (e) => {
     e.preventDefault();
     fetchRepo(username);
   };
 
+  const handleRefineChange = (e) => {
+    e.preventDefault();
+    setRepoFilter({ ...repoFilter, string: e.target.value });
+  };
+
   return (
     <div>
-      <Home
-        handleSubmit={handleSubmit}
+      <UserSearch
+        handleUsernameSubmit={handleUsernameSubmit}
         username={username}
         setUsername={setUsername}
       />
       {isLoading ? <div>Loading ...</div> : <div></div>}
-      <ul>
-        {repos.map((repo) => (
-          <li key={repo.id}>{repo.name}</li>
-        ))}
-      </ul>
       {/* @TODO loading spinner when searching for user */}
+      {repos.length > 0 && (
+        <RepoRefine
+          repos={repos}
+          repoFilter={repoFilter}
+          handleRefineChange={handleRefineChange}
+        />
+      )}
+
+      <Repos repos={repos} repoFilter={repoFilter} />
     </div>
   );
 }

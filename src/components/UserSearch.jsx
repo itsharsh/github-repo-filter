@@ -3,17 +3,17 @@ import React from "react";
 const Home = (props) => {
   return (
     <div>
-      <form onSubmit={props.handleSubmit}>
+      <form onSubmit={props.handleUsernameSubmit}>
         <input
           type="text"
           name="username"
           value={props.username}
-          placeholder="Username to search for?"
+          placeholder="Username"
           onChange={(e) => {
             props.setUsername(e.target.value);
           }}
         />{" "}
-        <input type="submit" />
+        <button type="submit">Search User</button>
       </form>
     </div>
   );
