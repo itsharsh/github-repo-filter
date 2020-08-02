@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
+import Loader from "react-loader-spinner";
+
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
 import UserSearch from "./components/UserSearch";
 import Filters from "./components/Filters";
@@ -10,7 +13,7 @@ const githubAPI = "https://api.github.com/users/";
 function App() {
   const [repos, setRepos] = useState([]);
   const [allLanguages, setAllLanguages] = useState([]);
-  const [username, setUsername] = useState("itsharsh");
+  const [username, setUsername] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [repoNameFilter, setRepoNameFilter] = useState("");
   const [langFilter, setLangFilter] = useState("");
@@ -18,7 +21,11 @@ function App() {
   const fetchRepo = async (username) => {
     setIsLoading(true);
     try {
-      const response = await axios(`${githubAPI}${username}/repos`);
+      const response = await axios(`${githubAPI}${username}/repos`, {
+        headers: {
+          accept: "application/vnd.github.v3+json",
+        },
+      });
       if (response.data.length === 0) {
         alert("User Not Found!!");
       } else {
@@ -31,12 +38,9 @@ function App() {
   };
 
   const updateLanguages = (lang) => {
-    if (!allLanguages.includes(lang)) {
-      setAllLanguages((allLanguages) => [...allLanguages, lang]);
-      console.log(allLanguages.includes(lang));
-      console.log("adding: ", lang);
-      console.log(" in: ", allLanguages);
-    }
+    setAllLanguages((prevAllLanguages) => {
+      return [...prevAllLanguages, lang];
+    });
   };
 
   const handleUsernameSubmit = (e) => {
@@ -46,7 +50,6 @@ function App() {
 
   const handleFilterChange = (e) => {
     e.preventDefault();
-    console.log(e.target.name);
     switch (e.target.name) {
       case "repoNameFilter":
         setRepoNameFilter(e.target.value);
@@ -69,8 +72,15 @@ function App() {
             setUsername={setUsername}
           />
 
-          {isLoading ? <div>Loading ...</div> : <div></div>}
-          {/* @TODO loading spinner when searching for user */}
+          {isLoading && (
+            <Loader
+              type="Bars"
+              color="#00BFFF"
+              height={30}
+              width={30}
+              timeout={3000} //3 secs
+            />
+          )}
           {repos.length > 0 && (
             <Filters
               repos={repos}
@@ -87,6 +97,7 @@ function App() {
         repos={repos}
         repoFilter={repoNameFilter}
         updateLanguages={updateLanguages}
+        allLanguages={allLanguages}
       />
     </div>
   );

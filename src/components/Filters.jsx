@@ -5,22 +5,22 @@ const Filters = (props) => {
     <div>
       <input
         type="text"
-        placeholder="Repository Name"
+        placeholder="Search Repository"
         name="repoNameFilter"
         value={props.repoNameFilter}
         onChange={props.handleFilterChange}
       />
-      <select
+      {/* <select
         name="langFilter"
         value={props.langFilter}
         onChange={props.handleFilterChange}
       >
-        {/* {props.allLanguages.map((lang) => (
-          <option value={lang} key={lang}>
+        {props.allLanguages.map((lang, i) => (
+          <option key={i} value={lang}>
             {lang}
           </option>
-        ))} */}
-      </select>
+        ))}
+      </select> */}
     </div>
   );
 };

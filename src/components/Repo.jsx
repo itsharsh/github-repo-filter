@@ -1,28 +1,39 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Moment from "react-moment";
 
 const Repo = ({ repo, updateLanguages }) => {
   const [forkedRepo, setForkedRepo] = useState({});
   const [languages, setLanguages] = useState({});
 
   useEffect(() => {
-    const fetchFormRepo = async () => {
-      const response = await axios(repo.url);
+    const fetchForkRepo = async () => {
+      const response = await axios(repo.url, {
+        headers: {
+          accept: "application/vnd.github.v3+json",
+        },
+      });
       const data = response.data;
       setForkedRepo(data);
     };
+
     const fetchLanguages = async () => {
-      const response = await axios(repo.languages_url);
+      const response = await axios(repo.languages_url, {
+        headers: {
+          accept: "application/vnd.github.v3+json",
+        },
+      });
       const data = response.data;
       setLanguages(data);
-      console.log(repo.name);
-      Object.entries(data).map(([lang]) => updateLanguages(lang));
+      let repoLang = [];
+      Object.entries(data).map(([lang]) => repoLang.push(lang));
+      updateLanguages(repoLang);
     };
     if (repo.fork) {
-      fetchFormRepo();
+      fetchForkRepo();
     }
     fetchLanguages();
-  }, [repo.name, repo.fork, repo.url, repo.languages_url, updateLanguages]);
+  }, [repo]);
 
   return (
     <div className="repoContainer">
@@ -50,8 +61,12 @@ const Repo = ({ repo, updateLanguages }) => {
         {repo.watchers > 0 && <li> Watchers: {repo.watchers}</li>}
         {repo.open_issues > 0 && <li>Open Issues: {repo.open_issues}</li>}
       </ul>
-      <p>Created on: {repo.created_at} </p>
-      <p>Last Update on: {repo.updated_at}</p>
+      <p>
+        Created on: <Moment format="MMM Do, YYYY">{repo.created_at}</Moment>
+      </p>
+      <p>
+        Last Updated <Moment fromNow>{repo.updated_at}</Moment>
+      </p>
     </div>
   );
 };

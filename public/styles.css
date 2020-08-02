@@ -25,7 +25,9 @@ h4,
 strong {
   color: #fff;
   margin-top: 0.5rem;
+  margin-right: 0.5rem;
   padding-top: 0.5rem;
+  word-wrap: "break-word"
 }
 
 button {
@@ -61,6 +63,7 @@ input {
 
 p {
   margin: 0.5rem;
+  display: inline-block;
 }
 
 a:hover {

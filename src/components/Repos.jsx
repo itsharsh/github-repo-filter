@@ -17,6 +17,7 @@ const Repos = (props) => (
               key={repo.id}
               repo={repo}
               updateLanguages={props.updateLanguages}
+              allLanguages={props.allLanguages}
             />
           )
         );
