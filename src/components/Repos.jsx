@@ -8,10 +8,18 @@ const Repos = (props) => (
       {props.repos.map((repo) => {
         const FilterStringMatch = repo.name
           .toLowerCase()
-          .includes(props.repoFilter.string.toLowerCase())
+          .includes(props.repoFilter.toLowerCase())
           ? true
           : false;
-        return FilterStringMatch && <Repo key={repo.id} repo={repo} />;
+        return (
+          FilterStringMatch && (
+            <Repo
+              key={repo.id}
+              repo={repo}
+              updateLanguages={props.updateLanguages}
+            />
+          )
+        );
       })}
     </ul>
   </div>

@@ -1,0 +1,93 @@
+header {
+  color: white;
+  font-size: 1.5em;
+  font-weight: 300;
+  text-align: center;
+}
+
+body {
+  margin: 0 auto;
+  max-width: 50rem;
+  font-family: "Roboto", sans-serif;
+  line-height: 1.5;
+  padding: 4rem 1rem;
+  color: #ffffff;
+  background-color: #000;
+}
+
+a {
+  text-decoration: none;
+  color: #e81c4f
+}
+
+
+h4,
+strong {
+  color: #fff;
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+}
+
+button {
+  background-color: #004edf;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 1.2rem;
+  border-radius: 4px;
+  transition-duration: 0.4s;
+  margin: 0.8rem;
+}
+
+button:focus {
+  outline: none;
+}
+
+button:hover {
+  background-color: #0026a1;
+  color: white;
+}
+
+input {
+  border: none;
+  padding: 15px 32px;
+  border-radius: 4px;
+  margin: 0.8rem;
+  font-size: 1.2rem;
+}
+
+p {
+  margin: 0.5rem;
+}
+
+a:hover {
+  color: #bdc3c7;
+}
+
+input:focus {
+  background-color: #e8f0fe;
+  outline: none;
+}
+
+/* Classes */
+.repoContainer {
+  padding: 1rem 1.5rem 1rem 1.5rem;
+  background-color: #1d1d1d;
+  margin: 1rem;
+  border-radius: 4px;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+li {
+  float: left;
+  margin: 0.75rem;
+}

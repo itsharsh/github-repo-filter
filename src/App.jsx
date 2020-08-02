@@ -2,16 +2,18 @@ import React, { useState } from "react";
 import axios from "axios";
 
 import UserSearch from "./components/UserSearch";
-import RepoRefine from "./components/RefineSearch";
+import Filters from "./components/Filters";
 import Repos from "./components/Repos";
 
 const githubAPI = "https://api.github.com/users/";
 
 function App() {
   const [repos, setRepos] = useState([]);
+  const [allLanguages, setAllLanguages] = useState([]);
   const [username, setUsername] = useState("itsharsh");
   const [isLoading, setIsLoading] = useState(false);
-  const [repoFilter, setRepoFilter] = useState({ string: "" });
+  const [repoNameFilter, setRepoNameFilter] = useState("");
+  const [langFilter, setLangFilter] = useState("");
 
   const fetchRepo = async (username) => {
     setIsLoading(true);
@@ -28,34 +30,64 @@ function App() {
     setIsLoading(false);
   };
 
+  const updateLanguages = (lang) => {
+    if (!allLanguages.includes(lang)) {
+      setAllLanguages((allLanguages) => [...allLanguages, lang]);
+      console.log(allLanguages.includes(lang));
+      console.log("adding: ", lang);
+      console.log(" in: ", allLanguages);
+    }
+  };
+
   const handleUsernameSubmit = (e) => {
     e.preventDefault();
     fetchRepo(username);
   };
 
-  const handleRefineChange = (e) => {
+  const handleFilterChange = (e) => {
     e.preventDefault();
-    setRepoFilter({ ...repoFilter, string: e.target.value });
+    console.log(e.target.name);
+    switch (e.target.name) {
+      case "repoNameFilter":
+        setRepoNameFilter(e.target.value);
+        break;
+      case "langFilter":
+        setLangFilter(e.target.value);
+        break;
+      default:
+        break;
+    }
   };
 
   return (
     <div>
-      <UserSearch
-        handleUsernameSubmit={handleUsernameSubmit}
-        username={username}
-        setUsername={setUsername}
-      />
-      {isLoading ? <div>Loading ...</div> : <div></div>}
-      {/* @TODO loading spinner when searching for user */}
-      {repos.length > 0 && (
-        <RepoRefine
-          repos={repos}
-          repoFilter={repoFilter}
-          handleRefineChange={handleRefineChange}
-        />
-      )}
+      <header>
+        <nav>
+          <UserSearch
+            handleUsernameSubmit={handleUsernameSubmit}
+            username={username}
+            setUsername={setUsername}
+          />
 
-      <Repos repos={repos} repoFilter={repoFilter} />
+          {isLoading ? <div>Loading ...</div> : <div></div>}
+          {/* @TODO loading spinner when searching for user */}
+          {repos.length > 0 && (
+            <Filters
+              repos={repos}
+              allLanguages={allLanguages}
+              repoNameFilter={repoNameFilter}
+              langFilter={langFilter}
+              handleFilterChange={handleFilterChange}
+            />
+          )}
+        </nav>
+      </header>
+
+      <Repos
+        repos={repos}
+        repoFilter={repoNameFilter}
+        updateLanguages={updateLanguages}
+      />
     </div>
   );
 }
