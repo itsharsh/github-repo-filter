@@ -27,7 +27,7 @@ const Repo = ({ repo, updateLanguages }) => {
       setLanguages(data);
       let repoLang = [];
       Object.entries(data).map(([lang]) => repoLang.push(lang));
-      updateLanguages(repoLang);
+      // updateLanguages(repoLang);
     };
     if (repo.fork) {
       fetchForkRepo();
